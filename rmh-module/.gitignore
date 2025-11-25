@@ -7,9 +7,10 @@ dist/
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
-Makefile
+build/Makefile
 *.cmake
 !CMakeLists.txt
+!/Makefile
 
 # C++ compiled files
 *.o
