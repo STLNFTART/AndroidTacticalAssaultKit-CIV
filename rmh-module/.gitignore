@@ -1,0 +1,104 @@
+# Build directories
+build/
+dist/
+*.egg-info/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# C++ compiled files
+*.o
+*.so
+*.a
+*.dylib
+*.dll
+*.exe
+
+# Java/Android
+*.class
+*.jar
+*.war
+*.ear
+*.apk
+*.ap_
+*.dex
+.gradle/
+local.properties
+.idea/
+*.iml
+.DS_Store
+captures/
+.externalNativeBuild
+.cxx/
+
+# Generated files
+*.autosave
+*~
+*.swp
+*.swo
+*~
+.*.swp
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Test outputs
+test_results/
+*.gcda
+*.gcno
+*.gcov
+
+# Documentation
+docs/html/
+docs/latex/
+
+# Keys and credentials (NEVER commit these!)
+*.pem
+*.key
+*.p12
+*.keystore
+secrets/
+credentials/
+
+# Data files
+*.bin
+*.dat
+test_data/
+datasets/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+env/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
