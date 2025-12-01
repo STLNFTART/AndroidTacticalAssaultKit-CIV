@@ -1,0 +1,176 @@
+# RMH Module Configuration File
+# Classification: UNCLASSIFIED
+
+system:
+  name: "Remote Minehunting Module"
+  version: "1.0.0"
+  node_id: 1
+  classification: "UNCLASSIFIED"
+
+# Signal Processing Configuration
+signal_processing:
+  detection_threshold_db: 5.0
+  classification_threshold: 0.70
+  adaptive_filtering: true
+  enable_gpu: false
+  max_threads: 4
+
+  sensors:
+    - type: "SONAR_SIDE_SCAN"
+      enabled: true
+      sample_rate_hz: 100000
+      detection_range_m: 200
+    - type: "MAGNETOMETER"
+      enabled: true
+      sample_rate_hz: 10
+      detection_range_m: 50
+    - type: "OPTICAL_CAMERA"
+      enabled: false
+
+  ml_model:
+    path: "/etc/rmh/models/mine_classifier.tflite"
+    input_size: 128
+    output_classes: 3
+
+  sensor_fusion:
+    enabled: true
+    correlation_threshold_m: 10.0
+    sensor_weights:
+      SONAR_SIDE_SCAN: 1.0
+      MAGNETOMETER: 0.8
+      OPTICAL_CAMERA: 0.9
+
+# Crypto Communications Configuration
+crypto:
+  link_type: "TETHER"  # TETHER, ACOUSTIC, or RF_SURFACE
+  bind_address: "0.0.0.0:5555"
+
+  encryption:
+    algorithm: "AES-256-GCM"
+    key_length_bits: 256
+    key_rotation_interval_min: 15
+    key_rotation_data_limit_mb: 100
+
+  anti_jamming:
+    enabled: true
+    frequency_hopping: true
+    hop_rate_hz: 1000
+    num_frequencies: 100
+
+  security:
+    timestamp_window_ms: 5000
+    replay_protection: true
+    require_authentication: true
+
+  performance:
+    max_queue_size: 1000
+    send_buffer_size_kb: 256
+    recv_buffer_size_kb: 256
+
+# Autonomy Controller Configuration
+autonomy:
+  control_mode: "SEMI_AUTO"  # MANUAL, SEMI_AUTO, FULL_AUTO
+  control_loop_rate_hz: 10
+
+  navigation:
+    waypoint_tolerance_m: 5.0
+    max_cross_track_error_m: 20.0
+
+  search_patterns:
+    default: "LAWN_MOWER"
+    track_spacing_m: 50.0
+    search_speed_knots: 5.0
+    turn_radius_m: 20.0
+
+  pid_tuning:
+    heading:
+      kp: 1.0
+      ki: 0.1
+      kd: 0.5
+    depth:
+      kp: 0.8
+      ki: 0.05
+      kd: 0.3
+    speed:
+      kp: 0.5
+      ki: 0.1
+      kd: 0.2
+
+  obstacle_avoidance:
+    enabled: true
+    lookahead_distance_m: 50.0
+    avoidance_angle_deg: 45.0
+    min_obstacle_distance_m: 10.0
+
+  safety_limits:
+    max_depth_m: 100.0
+    min_altitude_m: 5.0
+    max_speed_knots: 8.0
+    max_pitch_deg: 30.0
+    max_roll_deg: 30.0
+    geofence_radius_m: 500.0
+    comms_timeout_ms: 60000
+
+  lost_comms:
+    action: "SURFACE"  # SURFACE, HOLD, or RETURN_HOME
+    surface_speed_knots: 2.0
+
+# ATAK Integration Configuration
+atak:
+  plugin_name: "RMH Module"
+  version: "1.0.0"
+
+  ui:
+    refresh_rate_hz: 1
+    max_track_points: 1000
+    contact_marker_colors:
+      MINE_LIKE_OBJECT: "#FF0000"
+      MINE_LIKE_SUSPECT: "#FFA500"
+      NON_MINE_CLUTTER: "#00FF00"
+      UNKNOWN: "#808080"
+
+  data_forwarding:
+    forward_all_contacts: true
+    forward_telemetry: true
+    telemetry_rate_hz: 1
+
+  map_display:
+    show_tb_track: true
+    show_sensor_fov: true
+    show_search_area: true
+    show_coverage_grid: true
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARN, ERROR
+  log_to_file: true
+  log_file_path: "/var/log/rmh/rmh.log"
+  max_log_size_mb: 100
+  max_log_files: 10
+
+  components:
+    signal_processing: "INFO"
+    crypto_comms: "INFO"
+    autonomy: "INFO"
+    atak_plugin: "DEBUG"
+
+# Performance Monitoring
+monitoring:
+  enabled: true
+  metrics_interval_sec: 60
+
+  metrics:
+    - contacts_detected_per_hour
+    - false_positive_rate
+    - crypto_throughput_mbps
+    - crypto_overhead_percent
+    - message_latency_ms
+    - waypoint_accuracy_m
+    - area_coverage_percent
+
+# Simulation Mode (for testing)
+simulation:
+  enabled: false
+  synthetic_data: true
+  playback_speed: 1.0
+  dataset_path: "/data/rmh/test_dataset.bin"
